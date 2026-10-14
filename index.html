@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyShop</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎟️</text></svg>">
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo__mark">◆</span>
+    <span class="logo__text">EasyShop</span>
+  </div>
+
+  <nav id="nav">
+    <button class="tab active" data-view="money">🪙 Easy Money</button>
+    <button class="tab" data-view="october">🎃 Октябрь</button>
+    <button class="tab" data-view="week">📅 Easy-Week</button>
+    <button class="tab" data-view="collection">🃏 Коллекция</button>
+    <button class="tab" data-view="tasks">📋 Задания</button>
+    <button class="tab" data-view="upgrades">⚡ Апгрейды</button>
+  </nav>
+
+  <div class="header-balance">
+    <div class="balance balance--tickets" id="ticketsBox">
+      🎟️ <span id="ticketsVal">0</span>
+    </div>
+    <div class="balance balance--em" id="emBox">
+      💰 <span id="emVal">0</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ EASY MONEY (КЛИКЕР) ============ -->
+  <section class="view active" id="view-money">
+    <div class="shop-head">
+      <div>
+        <h1 class="section-title">🪙 Easy Money</h1>
+        <p class="section-sub">Кликай по монете — зарабатывай EM и билеты</p>
+      </div>
+    </div>
+
+    <div class="money-layout">
+      <div class="clicker">
+        <div class="clicker__glow"></div>
+        <button class="coin" id="coin" aria-label="Кликни">
+          <span class="coin__inner">₿</span>
+          <span class="coin__ring"></span>
+        </button>
+        <div class="clicker__hint">Кликни по монете</div>
+
+        <div class="clicker__stats">
+          <div class="stat">
+            <div class="stat__label">Кликов</div>
+            <div class="stat__val" id="clicksVal">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">До билета</div>
+            <div class="stat__val" id="toTicketVal">25</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Заработано EM</div>
+            <div class="stat__val" id="earnedVal">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="money-side">
+        <div class="money-balance">
+          <div class="money-label">Баланс</div>
+          <div class="money-amount">
+            <span id="moneyVal">0</span>
+            <span class="money-unit">EM</span>
+          </div>
+          <div class="money-tickets">
+            🎟️ <span id="ticketsVal2">0</span> билетов
+          </div>
+        </div>
+
+        <h2 class="history-title">История</h2>
+        <div class="history" id="history"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ОКТЯБРЬ ============ -->
+  <section class="view" id="view-october">
+    <div class="shop-head">
+      <div>
+        <h1 class="section-title">🎃 October Pack</h1>
+        <p class="section-sub">Открой бокс за 3 билета — выпадет случайная карточка</p>
+      </div>
+      <button class="btn-open" id="openOctober">
+        <span class="btn-open__icon">📦</span>
+        <span>Открыть бокс</span>
+        <span class="btn-open__cost">3 🎟️</span>
+      </button>
+    </div>
+    <div class="grid" id="grid-october"></div>
+  </section>
+
+  <!-- ============ EASY-WEEK ============ -->
+  <section class="view" id="view-week">
+    <div class="shop-head">
+      <div>
+        <h1 class="section-title">📅 Easy-Week Pack</h1>
+        <p class="section-sub">Открой бокс за 3 билета — выпадет случайная карточка</p>
+      </div>
+      <button class="btn-open" id="openWeek">
+        <span class="btn-open__icon">📦</span>
+        <span>Открыть бокс</span>
+        <span class="btn-open__cost">3 🎟️</span>
+      </button>
+    </div>
+    <div class="grid" id="grid-week"></div>
+  </section>
+
+  <!-- ============ КОЛЛЕКЦИЯ ============ -->
+  <section class="view" id="view-collection">
+    <h1 class="section-title">🃏 Коллекция</h1>
+    <p class="section-sub">Все карточки. Кликни по открытой — увидишь описание</p>
+    <div class="collection-filters" id="collectionFilters"></div>
+    <div class="grid grid--collection" id="grid-collection"></div>
+  </section>
+
+  <!-- ============ ЗАДАНИЯ ============ -->
+  <section class="view" id="view-tasks">
+    <h1 class="section-title">📋 Задания</h1>
+    <p class="section-sub">Выполняй задания — получай билеты для открытия боксов</p>
+    <div class="tasks-list" id="tasksList"></div>
+  </section>
+
+  <!-- ============ АПГРЕЙДЫ ============ -->
+  <section class="view" id="view-upgrades">
+    <h1 class="section-title">⚡ Апгрейды</h1>
+    <p class="section-sub">Покупай улучшения за EM — усиливают прогресс</p>
+    <div class="upgrades-list" id="upgradesList"></div>
+  </section>
+
+</main>
+
+<!-- Модалка карточки -->
+<div class="modal" id="modal">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__content">
+    <button class="modal__close" data-close>×</button>
+    <div class="modal__img-wrap"><img id="mImg" alt=""></div>
+    <div class="modal__body">
+      <span class="modal__tag" id="mTag">Карточка</span>
+      <h2 class="modal__title" id="mTitle"></h2>
+      <p class="modal__desc" id="mDesc"></p>
+      <div class="modal__footer">
+        <div class="modal__price" id="mPrice"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка выпавшей карточки -->
+<div class="modal" id="dropModal">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__content modal__content--drop">
+    <button class="modal__close" data-close>×</button>
+    <div class="drop-reveal">
+      <div class="drop-reveal__img-wrap">
+        <img id="dImg" alt="">
+      </div>
+      <div class="drop-reveal__info">
+        <div class="drop-reveal__label">Тебе выпала</div>
+        <div class="drop-reveal__name" id="dName"></div>
+        <div class="drop-reveal__rarity" id="dRarity"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Частицы -->
+<canvas id="particles"></canvas>
+
+<!-- Тосты -->
+<div class="toasts" id="toasts"></div>
+
+<!-- Звуки -->
+<audio id="sfxClick" src="assets/sounds/click.mp3" preload="auto"></audio>
+<audio id="sfxHit" src="assets/sounds/hit.mp3" preload="auto"></audio>
+<audio id="sfxAchievement" src="assets/sounds/achievement.mp3" preload="auto"></audio>
+<audio id="sfxUpgrade" src="assets/sounds/upgrade.mp3" preload="auto"></audio>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
